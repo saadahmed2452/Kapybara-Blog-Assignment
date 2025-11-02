@@ -3,7 +3,7 @@ import { pool } from "../../lib/db"
 import { drizzle } from "drizzle-orm/node-postgres"
 import { categories } from "../../lib/schema"
 
-const db = drizzle(pool)   // define ONCE top level
+const db = drizzle(pool)   
 
 export async function GET() {
   const rows = await db.select().from(categories).orderBy(categories.name.asc)

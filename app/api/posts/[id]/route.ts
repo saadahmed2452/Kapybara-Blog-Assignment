@@ -7,14 +7,14 @@ import { NextResponse, NextRequest } from "next/server";
 
 const db = drizzle(pool);
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
-  const rows = await db.select().from(posts).where(eq(posts.id, id));
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;  
+  const rows = await db.select().from(posts).where(eq(posts.id, Number(id)));
   return NextResponse.json(rows[0] ?? null);
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const body = await req.json();
   if (!body?.title || !body?.content)
     return NextResponse.json({ error: "title/content required" }, { status: 400 });
@@ -44,8 +44,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   return NextResponse.json({ success: true });
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   await db.delete(postCategories).where(eq(postCategories.post_id, id));
   await db.delete(posts).where(eq(posts.id, id));
   return NextResponse.json({ success: true });
