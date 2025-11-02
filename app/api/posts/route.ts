@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { pool } from "../../lib/db";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { posts, postCategories } from "../../lib/schema";
@@ -6,7 +6,7 @@ import { desc, eq } from "drizzle-orm";
 
 const db = drizzle(pool);
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const categoryId = searchParams.get("categoryId");
 
@@ -24,8 +24,7 @@ export async function GET(req: Request) {
         .where(eq(postCategories.category_id, catId))
         .orderBy(desc(posts.created_at));
 
-      const result = rows.map(r => r.posts); // extract posts only
-
+      const result = rows.map(r => r.posts);
       return NextResponse.json(result);
     }
   } catch (err: any) {

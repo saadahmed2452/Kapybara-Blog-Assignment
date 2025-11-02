@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { pool } from "../../../lib/db";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { posts } from "../../../lib/schema";
 
 const db = drizzle(pool);
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 

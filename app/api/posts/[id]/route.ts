@@ -1,18 +1,19 @@
-import { NextResponse } from "next/server";
 import { pool } from "../../../lib/db";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { posts, postCategories } from "../../../lib/schema";
 import { eq } from "drizzle-orm";
+import { NextResponse, NextRequest } from "next/server";
+
 
 const db = drizzle(pool);
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const id = Number(params.id);
   const rows = await db.select().from(posts).where(eq(posts.id, id));
   return NextResponse.json(rows[0] ?? null);
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const id = Number(params.id);
   const body = await req.json();
   if (!body?.title || !body?.content)
@@ -43,7 +44,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   return NextResponse.json({ success: true });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   const id = Number(params.id);
   await db.delete(postCategories).where(eq(postCategories.post_id, id));
   await db.delete(posts).where(eq(posts.id, id));
