@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
 
 export function DeletePostButton({ id }: { id: number }) {
   const router = useRouter();
-  const del = trpc.posts.delete.useMutation();
-  const utils = trpc.useContext();
+  const del = trpc.posts.deletePost.useMutation();
+  const utils = trpc.useUtils();
 
   const doDelete = async () => {
     if (!confirm("Are you sure you want to delete this post?")) return;
