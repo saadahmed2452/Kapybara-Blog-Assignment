@@ -9,3 +9,14 @@ export const posts = pgTable("posts", {
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
+
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 255 }).notNull(),
+});
+
+export const postCategories = pgTable("post_categories", {
+  post_id: serial("post_id").notNull(),
+  category_id: serial("category_id").notNull(),
+});
