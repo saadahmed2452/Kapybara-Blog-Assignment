@@ -1,34 +1,82 @@
+// {
+//   "compilerOptions": {
+//     "target": "ES2017",
+//     "lib": ["dom", "dom.iterable", "esnext"],
+//     "allowJs": true,
+//     "skipLibCheck": true,
+//     "strict": true,
+//     "noEmit": true,
+//     "esModuleInterop": true,
+//     "module": "esnext",
+//     "moduleResolution": "node",
+//     "resolveJsonModule": true,
+//     "isolatedModules": true,
+//     "jsx": "react-jsx",
+//     "incremental": true,
+//     "plugins": [
+//       {
+//         "name": "next"
+//       }
+//     ],
+//     "paths": {
+//       "@/*": ["./*"]
+//     }
+//   },
+//   "include": [
+//     "next-env.d.ts",
+//     "**/*.ts",
+//     "**/*.tsx",
+//     ".next/types/**/*.ts",
+//     ".next/dev/types/**/*.ts",
+//     "**/*.mts"
+// , "app/api/route.js"  ],
+//   "exclude": ["node_modules"]
+// }
+
+
+
+
+
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "incremental": true,
+    "target": "ES2020",                      // Changed from ES2017 to ES2020 for modern JS features
+    "lib": ["dom", "dom.iterable", "esnext"], // Keep for modern JS features
+    "allowJs": false,                         // Set to false if you don't have JS files
+    "skipLibCheck": true,                     // Keeps it for faster build times
+    "strict": true,                           // Strict type-checking for better code safety
+    "noEmit": true,                           // Keep this if you don't want to output .js files
+    "esModuleInterop": true,                  // Ensures compatibility with both ESM and CommonJS
+    "module": "esnext",                       // Use ESNext modules
+    "moduleResolution": "node",               // Node.js style module resolution
+    "resolveJsonModule": true,                // Allows importing JSON files
+    "isolatedModules": true,                  // Ensures isolated module treatment
+    "jsx": "react-jsx",                       // React JSX transform for React 17+
+    "incremental": true,                      // Helps with incremental compilation
+    "baseUrl": ".",
+"paths": {
+  "@/*": ["*"]
+}
+,
     "plugins": [
       {
-        "name": "next"
+        "name": "next"                        // Next.js plugin
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"]                          // Alias for directories, makes imports cleaner
     }
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
-  ],
-  "exclude": ["node_modules"]
+    "next-env.d.ts",                          // Include Next.js environment declarations
+    "**/*.ts",                                // Include TypeScript files
+    "**/*.tsx",                               // Include TSX files for React
+    ".next/types/**/*.ts",                    // Include Next.js generated types
+    ".next/dev/types/**/*.ts",                // Include dev-specific types
+    "**/*.mts",                               // Include MTS files (module typescript)
+    "app/api/route.js"                        // If this is required, leave it; otherwise, remove
+, "scripts/push-schema.mjs", "next.config.js"  ],
+  "exclude": [
+    "node_modules"                            // Exclude node_modules for faster compilation
+  ]
 }
+
