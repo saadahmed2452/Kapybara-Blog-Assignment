@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import db from "../../../lib/db";
-import { posts, post_categories } from "../../../lib/schema";
+import { posts, postCategories } from "../../../lib/schema";
 import { eq } from "drizzle-orm";
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
@@ -24,11 +24,11 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     updated_at: new Date()
   }).where(eq(posts.id, id));
 
-  await db.delete(post_categories).where(eq(post_categories.post_id, id));
+  await db.delete(postCategories).where(eq(postCategories.post_id, id));
   if (Array.isArray(body.categories) && body.categories.length > 0) {
     await Promise.all(
       body.categories.map((catId: number) =>
-        db.insert(post_categories).values({ post_id: id, category_id: catId })
+        db.insert(postCategories).values({ post_id: id, category_id: catId })
       )
     );
   }
@@ -38,7 +38,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
   const id = Number(params.id);
-  await db.delete(post_categories).where(eq(post_categories.post_id, id));
+  await db.delete(postCategories).where(eq(postCategories.post_id, id));
   await db.delete(posts).where(eq(posts.id, id));
   return NextResponse.json({ success: true });
 }
