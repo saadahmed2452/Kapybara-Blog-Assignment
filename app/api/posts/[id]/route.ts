@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
-import db from "../../../lib/db";
+import { pool } from "../../../lib/db";
+import { drizzle } from "drizzle-orm/node-postgres";
 import { posts, postCategories } from "../../../lib/schema";
 import { eq } from "drizzle-orm";
+
+const db = drizzle(pool);
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -16,6 +19,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json({ error: "title/content required" }, { status: 400 });
 
   const slug = body.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
   await db.update(posts).set({
     title: body.title,
     content: body.content,
@@ -24,7 +28,10 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     updated_at: new Date()
   }).where(eq(posts.id, id));
 
+  // delete old
   await db.delete(postCategories).where(eq(postCategories.post_id, id));
+
+  // insert new
   if (Array.isArray(body.categories) && body.categories.length > 0) {
     await Promise.all(
       body.categories.map((catId: number) =>
