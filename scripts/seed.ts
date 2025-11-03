@@ -1,7 +1,10 @@
-import db from "../app/lib/db";
-import { categories, posts, post_categories } from "../app/lib/schema";
+import { pool } from "../app/lib/db";
+import { categories, posts } from "../app/lib/schema";
+import { drizzle } from "drizzle-orm/node-postgres";
+
 
 async function seed() {
+  const db = drizzle(pool);
   console.log("Seeding...");
   await db.insert(categories).values([
     { name: "Tech", description: "Technology", slug: "tech" },

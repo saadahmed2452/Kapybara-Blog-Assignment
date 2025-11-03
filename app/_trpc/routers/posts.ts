@@ -1,4 +1,6 @@
 // app/_trpc/routers/posts.ts
+import type { Context } from "../server";
+
 import { z } from "zod";
 import { router, publicProcedure } from "../server";
 

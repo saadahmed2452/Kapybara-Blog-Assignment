@@ -21,12 +21,11 @@ export default function NewCategoryPage() {
       <h1 className="text-2xl font-semibold">New Category</h1>
 
       <form onSubmit={submit} className="space-y-4">
-
         <input
           className="w-full border rounded px-3 py-2"
           placeholder="Category name..."
           value={name}
-          onChange={(e)=>setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           required
         />
 
@@ -34,7 +33,7 @@ export default function NewCategoryPage() {
           className="w-full border rounded px-3 py-2"
           placeholder="slug..."
           value={slug}
-          onChange={(e)=>setSlug(e.target.value)}
+          onChange={(e) => setSlug(e.target.value)}
           required
         />
 

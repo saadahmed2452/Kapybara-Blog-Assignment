@@ -1,4 +1,4 @@
-// app/(blog)/blog/page.tsx
+export const dynamic = "force-dynamic";
 import { appRouter } from "@/app/_trpc/routers";
 import { pool } from "@/app/lib/db";
 import Link from "next/link";

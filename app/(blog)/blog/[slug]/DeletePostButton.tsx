@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export function DeletePostButton({ id }: { id: number }) {
   const router = useRouter();
-  const del = trpc.posts.delete.useMutation();   // <--- this is correct
+  const del = trpc.posts.delete.useMutation();
   const utils = trpc.useUtils();
 
   const doDelete = async () => {
@@ -13,7 +13,7 @@ export function DeletePostButton({ id }: { id: number }) {
 
     await del.mutateAsync(id);
 
-    await utils.posts.getAll.invalidate();   // <--- correct query invalidate
+    await utils.posts.getAll.invalidate(); // <--- correct query invalidate
 
     router.push("/blog");
   };

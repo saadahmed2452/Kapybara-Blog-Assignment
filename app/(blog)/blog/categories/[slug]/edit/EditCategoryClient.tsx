@@ -14,7 +14,12 @@ export default function EditCategoryClient({ category }: { category: any }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await update.mutateAsync({ id: category.id, name, slug, description: desc });
+    await update.mutateAsync({
+      id: category.id,
+      name,
+      slug,
+      description: desc,
+    });
     router.push("/blog/categories");
   };
 

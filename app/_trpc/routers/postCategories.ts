@@ -1,3 +1,4 @@
+// app/_trpc/routers/postCategories.ts
 import { z } from "zod";
 import { router, publicProcedure } from "../server";
 
@@ -5,17 +6,17 @@ export const postCategoriesRouter = router({
   attach: publicProcedure
     .input(
       z.object({
-        post_id: z.number(),
-        category_id: z.number(),
+        postId: z.number(),
+        categoryIds: z.array(z.number()),
       })
     )
     .mutation(async ({ ctx, input }) => {
-     await ctx.pool.query(`
-  INSERT INTO post_categories (post_id, category_id)
-  VALUES ($1, unnest($2::int[]))
-  ON CONFLICT (post_id, category_id) DO NOTHING;
-`, [postId, categoryIds]);
-
+      await ctx.pool.query(
+        `INSERT INTO post_categories (post_id, category_id)
+         SELECT $1, unnest($2::int[])
+         ON CONFLICT (post_id, category_id) DO NOTHING;`,
+        [input.postId, input.categoryIds]
+      );
       return { success: true };
     }),
 

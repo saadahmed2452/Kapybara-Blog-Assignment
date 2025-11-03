@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { appRouter } from "@/app/_trpc/routers";
 import { pool } from "@/app/lib/db";
 import DeleteCategoryButton from "./DeleteCategoryButton"; // we'll implement next

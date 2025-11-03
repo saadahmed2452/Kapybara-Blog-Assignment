@@ -10,12 +10,12 @@ export default function NewPostPage() {
 
   const { data: categories = [] } = trpc.categories.getAll.useQuery();
   const create = trpc.posts.create.useMutation();
-const assignCats = trpc.posts.assignCategories.useMutation({
-  onSuccess: async () => {
-    await utils.posts.invalidate();
-    router.push("/blog");
-  },
-});
+  const assignCats = trpc.posts.assignCategories.useMutation({
+    onSuccess: async () => {
+      await utils.posts.invalidate();
+      router.push("/blog");
+    },
+  });
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -23,30 +23,32 @@ const assignCats = trpc.posts.assignCategories.useMutation({
 
   const toggleCategory = (id: number) => {
     if (selectedCategories.includes(id)) {
-      setSelectedCategories(selectedCategories.filter(c => c !== id));
+      setSelectedCategories(selectedCategories.filter((c) => c !== id));
     } else {
       setSelectedCategories([...selectedCategories, id]);
     }
   };
 
   const submit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const post = await create.mutateAsync({
-    title,
-    content,
-    is_published: true,
-    category_ids: selectedCategories,
-  });
+    const post = await create.mutateAsync({
+      title,
+      content,
+      is_published: true,
+      category_ids: selectedCategories,
+    });
 
-  if (selectedCategories.length > 0) {
-    await assignCats.mutateAsync({ postId: post.id, categoryIds: selectedCategories });
-  } else {
-    await utils.posts.invalidate();
-    router.push("/blog");
-  }
-};
-
+    if (selectedCategories.length > 0) {
+      await assignCats.mutateAsync({
+        postId: post.id,
+        categoryIds: selectedCategories,
+      });
+    } else {
+      await utils.posts.invalidate();
+      router.push("/blog");
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto py-12 px-6 space-y-6">
@@ -86,10 +88,7 @@ const assignCats = trpc.posts.assignCategories.useMutation({
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="px-4 py-2 rounded bg-black text-white"
-        >
+        <button type="submit" className="px-4 py-2 rounded bg-black text-white">
           Publish
         </button>
       </form>
